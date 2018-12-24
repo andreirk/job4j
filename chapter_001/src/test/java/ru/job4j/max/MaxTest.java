@@ -13,4 +13,11 @@ public class MaxTest {
         assertThat(result, is(2));
     }
 
+    @Test
+    public void whenThirdTheBiggest() {
+        Max maxim = new Max();
+        int result = maxim.max(1, 2, 4);
+        assertThat(result, is(4));
+    }
+
 }
