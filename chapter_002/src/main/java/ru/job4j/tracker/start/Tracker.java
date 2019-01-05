@@ -16,7 +16,7 @@ public class Tracker {
     /**
      * Массив для хранение заявок.
      */
-    private final Item[] items = new Item[100];
+    private  Item[] items = new Item[100];
 
     private final Random random = new Random();
 
@@ -50,7 +50,7 @@ public class Tracker {
     public Item[] findByName(String key) {
         Item[] result = new Item[items.length];
         for (int i = 0; i < items.length; i++) {
-            if (items[i].getName().equals(key)) {
+            if (items[i] != null && items[i].getName().equals(key)) {
                 result[i] = items[i];
             }
         }
@@ -85,18 +85,31 @@ public class Tracker {
         boolean result = false;
         Item[] firstPart = null;
         int i = 0;
-        for (; i < items.length; i++) {
-            if (items[i].getId().equals(id)) {
+
+        int counterOfFulfiledItems = 0;
+
+        for(int j = 0; j < items.length; j++){
+            if(items[j] != null){
+                counterOfFulfiledItems++;
+            }
+        }
+
+        Item[] fulfiledItems = Arrays.copyOf(items, counterOfFulfiledItems);
+
+        for (; i < fulfiledItems.length; i++) {
+            if (fulfiledItems[i].getId().equals(id)) {
                 firstPart = Arrays.copyOf(items, i);
                 break;
             }
         }
-        Item[] secondPart = new Item[items.length - i];
-        for (int j = i; j < items.length; j++) {
-            secondPart[j] = items[j];
+
+        Item[] secondPart = new Item[fulfiledItems.length - i];
+        for (int j = i; j < fulfiledItems.length; j++) {
+            secondPart[j] = fulfiledItems[j];
         }
 
         Item[] resultArr = ArrayUtils.addAll(firstPart, secondPart);
+        this.items = resultArr;
         result = true;
 
         return result;
